@@ -49,9 +49,9 @@ in
           gaps_out = 12;
           border_size = 2;
           
-          # Novadust colors
-          "col.active_border" = "rgba(${builtins.substring 1 6 colors.blue.primary}ff) rgba(${builtins.substring 1 6 colors.blue.light}ff) 45deg";
-          "col.inactive_border" = "rgba(${builtins.substring 1 6 colors.ui.border}aa)";
+          # Novadust colors - convert hex to rgba format for Hyprland
+          "col.active_border" = "rgba(4a9effff) rgba(6bb6ffff) 45deg";  # blue.primary -> blue.light gradient
+          "col.inactive_border" = "rgba(30363daa)";  # ui.border with transparency
 
           layout = "dwindle";
           allow_tearing = false;
@@ -79,7 +79,7 @@ in
           drop_shadow = true;
           shadow_range = 30;
           shadow_render_power = 3;
-          "col.shadow" = "rgba(${builtins.substring 1 6 colors.bg.primary}80)";
+          "col.shadow" = "rgba(0d142180)";  # bg.primary with transparency
 
           # Dim inactive windows
           dim_inactive = false;
@@ -272,7 +272,8 @@ in
         ];
       };
     };
-  # Waybar configuration for Hyprland
+
+    # Waybar configuration for Hyprland
     programs.waybar = {
       enable = true;
       
@@ -452,12 +453,12 @@ in
             min-height: 0;
         }
 
-        window#waybar {
-            background-color: ${colors.bg.primary};
-            border-bottom: 2px solid ${colors.ui.border};
-            color: ${colors.text.primary};
-            transition-property: background-color;
-            transition-duration: .5s;
+        window {
+          background-color = 0d1421;  # bg.primary
+          border-bottom = 2px solid 30363d;  # ui.border
+          color = e6edf3;  # text.primary
+          transition-property = background-color;
+          transition-duration = .5s;
         }
 
         button {
@@ -467,34 +468,34 @@ in
         }
 
         button:hover {
-            background: inherit;
-            box-shadow: inset 0 -3px ${colors.blue.primary};
+          background = inherit;
+          box-shadow = inset 0 -3px 4a9eff;  # blue.primary
         }
 
         #workspaces button {
-            padding: 0 5px;
-            background-color: transparent;
-            color: ${colors.text.secondary};
+          padding = 0 5px;
+          background-color = transparent;
+          color = b6c2cf;  # text.secondary
         }
 
         #workspaces button:hover {
-            background: ${colors.ui.hover};
+          background = 21262d;  # ui.hover
         }
 
         #workspaces button.focused {
-            background-color: ${colors.ui.selected};
-            color: ${colors.text.primary};
-            box-shadow: inset 0 -3px ${colors.blue.primary};
+          background-color = 264f78;  # ui.selected
+          color = e6edf3;  # text.primary
+          box-shadow = inset 0 -3px 4a9eff;  # blue.primary
         }
 
         #workspaces button.urgent {
-            background-color: ${colors.ui.error};
-            color: ${colors.text.primary};
+          background-color = f85149;  # ui.error
+          color = e6edf3;  # text.primary
         }
 
         #mode {
-            background-color: ${colors.bg.secondary};
-            border-bottom: 2px solid ${colors.text.primary};
+          background-color = 1a2332;  # bg.secondary
+          border-bottom = 2px solid e6edf3;  # text.primary
         }
 
         #clock,
@@ -513,136 +514,424 @@ in
         #idle_inhibitor,
         #scratchpad,
         #mpd {
-            padding: 0 10px;
-            color: ${colors.text.primary};
-        }
-
-        #window,
-        #workspaces {
-            margin: 0 4px;
+          padding = 0 10px;
+          color = e6edf3;  # text.primary
         }
 
         .modules-left > widget:first-child > #workspaces {
-            margin-left: 0;
+          margin-left = 0;
         }
 
         .modules-right > widget:last-child > #workspaces {
-            margin-right: 0;
+          margin-right = 0;
         }
 
         #clock {
-            background-color: ${colors.bg.secondary};
-            color: ${colors.text.primary};
+          background-color = 1a2332;  # bg.secondary
+          color = e6edf3;  # text.primary
         }
 
         #battery {
-            background-color: ${colors.bg.secondary};
-            color: ${colors.text.primary};
+          background-color = 1a2332;  # bg.secondary
+          color = e6edf3;  # text.primary
         }
 
         #battery.charging, #battery.plugged {
-            color: ${colors.cool.green};
-            background-color: ${colors.bg.secondary};
-        }
-
-        @keyframes blink {
-            to {
-                background-color: ${colors.text.primary};
-                color: ${colors.bg.primary};
-            }
+          color = 66bb6a;  # cool.green
+          background-color = 1a2332;  # bg.secondary
         }
 
         #battery.critical:not(.charging) {
-            background-color: ${colors.ui.error};
-            color: ${colors.text.primary};
-            animation-name: blink;
-            animation-duration: 0.5s;
-            animation-timing-function: linear;
-            animation-iteration-count: infinite;
-            animation-direction: alternate;
+          background-color = f85149;  # ui.error
+          color = e6edf3;  # text.primary
+          animation-name = blink;
+          animation-duration = 0.5s;
+          animation-timing-function = linear;
+          animation-iteration-count = infinite;
+          animation-direction = alternate;
+        }
+
+        @keyframes blink {
+          to {
+            background-color = e6edf3;  # text.primary
+            color = 0d1421;  # bg.primary
+          }
         }
 
         label:focus {
-            background-color: ${colors.bg.primary};
+          background-color = 0d1421;  # bg.primary
         }
 
         #cpu {
-            background-color: ${colors.bg.secondary};
-            color: ${colors.blue.primary};
+          background-color = 1a2332;  # bg.secondary
+          color = 4a9eff;  # blue.primary
         }
 
         #memory {
-            background-color: ${colors.bg.secondary};
-            color: ${colors.cool.green};
+          background-color = 1a2332;  # bg.secondary
+          color = 66bb6a;  # cool.green
         }
 
         #disk {
-            background-color: ${colors.bg.secondary};
+          background-color = 1a2332;  # bg.secondary
         }
 
         #backlight {
-            background-color: ${colors.bg.secondary};
-            color: ${colors.warm.orange};
+          background-color = 1a2332;  # bg.secondary
+          color = ffa726;  # warm.orange
         }
 
         #network {
-            background-color: ${colors.bg.secondary};
-            color: ${colors.blue.light};
+          background-color = 1a2332;  # bg.secondary
+          color = 6bb6ff;  # blue.light
         }
 
         #network.disconnected {
-            background-color: ${colors.ui.error};
-            color: ${colors.text.primary};
+          background-color = f85149;  # ui.error
+          color = e6edf3;  # text.primary
         }
 
         #pulseaudio {
-            background-color: ${colors.bg.secondary};
-            color: ${colors.cool.purple};
+          background-color = 1a2332;  # bg.secondary
+          color = ab47bc;  # cool.purple
         }
 
         #pulseaudio.muted {
-            background-color: ${colors.text.muted};
-            color: ${colors.bg.primary};
+          background-color = 7d8590;  # text.muted
+          color = 0d1421;  # bg.primary
         }
 
         #temperature {
-            background-color: ${colors.bg.secondary};
+          background-color = 1a2332;  # bg.secondary
         }
 
         #temperature.critical {
-            background-color: ${colors.ui.error};
+          background-color = f85149;  # ui.error
         }
 
         #tray {
-            background-color: ${colors.bg.secondary};
-        }
-
-        #tray > .passive {
-            -gtk-icon-effect: dim;
+          background-color = 1a2332;  # bg.secondary
         }
 
         #tray > .needs-attention {
-            -gtk-icon-effect: highlight;
-            background-color: ${colors.ui.error};
+          -gtk-icon-effect = highlight;
+          background-color = f85149;  # ui.error
         }
 
         #idle_inhibitor {
-            background-color: ${colors.bg.secondary};
+          background-color = 1a2332;  # bg.secondary
         }
 
         #idle_inhibitor.activated {
-            
+          background-color = e6edf3;  # text.primary
+          color = 0d1421;  # bg.primary
+        }
 
-  # You can add any shared configuration here
-  options.novadust.enable = lib.mkEnableOption "Novadust theme suite";
+        #mpd {
+          background-color = 1a2332;  # bg.secondary
+          color = e6edf3;  # text.primary
+        }
 
-  config = lib.mkIf config.novadust.enable {
-    # Enable all components by default when novadust is enabled
-    novadust = {
-      gtk.enable = lib.mkDefault true;
-      alacritty.enable = lib.mkDefault true;
-      rofi.enable = lib.mkDefault true;
-      # i3.enable is left false by default since not everyone uses i3
+        #mpd.disconnected {
+          background-color = f85149;  # ui.error
+        }
+
+        #mpd.stopped {
+          background-color = 7d8590;  # text.muted
+        }
+
+        #mpd.paused {
+          background-color = 243244;  # bg.tertiary
+        }
+
+        #language {
+          background = 1a2332;  # bg.secondary
+          color = e6edf3;  # text.primary
+          padding = 0 5px;
+          margin = 0 5px;
+          min-width = 16px;
+        }
+
+        #keyboard-state {
+          background = 1a2332;  # bg.secondary
+          color = e6edf3;  # text.primary
+          padding = 0 0px;
+          margin = 0 5px;
+          min-width = 16px;
+        }
+
+        #keyboard-state > label {
+          padding = 0 5px;
+        }
+
+        #keyboard-state > label.locked {
+          background = d29922;  # ui.warning
+          color = 0d1421;  # bg.primary
+        }
+      '';
+    };
+
+    # Mako notification daemon
+    services.mako = {
+      enable = true;
+      backgroundColor = "1a2332";  # bg.secondary
+      borderColor = "30363d";      # ui.border
+      textColor = "e6edf3";        # text.primary
+      borderRadius = 12;
+      borderSize = 2;
+      width = 400;
+      height = 150;
+      padding = "15";
+      margin = "10";
+      font = "Inter Medium 11";
+      defaultTimeout = 5000;
+      
+      extraConfig = ''
+        max-history=100
+        sort=-time
+        
+        [urgency=low]
+        border-color=66bb6a
+        default-timeout=2000
+        
+        [urgency=normal]
+        border-color=4a9eff
+        default-timeout=5000
+        
+        [urgency=critical]
+        border-color=f85149
+        default-timeout=0
+        
+        [category=mpd]
+        border-color=ab47bc
+        default-timeout=2000
+        group-by=category
+      '';
+    };
+
+    # Wofi launcher (Wayland rofi alternative)
+    programs.wofi = {
+      enable = true;
+      
+      settings = {
+        width = 600;
+        height = 400;
+        location = "center";
+        show = "drun";
+        prompt = "Search applications...";
+        filter_rate = 100;
+        allow_markup = true;
+        no_actions = true;
+        halign = "fill";
+        orientation = "vertical";
+        content_halign = "fill";
+        insensitive = true;
+        allow_images = true;
+        image_size = 32;
+        gtk_dark = true;
+      };
+      
+      style = ''
+        window {
+          margin: 0px;
+          border: 2px solid 30363d;    # ui.border
+          border-radius: 12px;
+          background-color: 0d1421;    # bg.primary
+          font-family: Inter;
+          font-size: 14px;
+        }
+
+        #input {
+          padding: 12px;
+          margin: 12px;
+          border-radius: 8px;
+          border: none;
+          background-color: 1a2332;    # bg.secondary
+          color: e6edf3;               # text.primary
+          font-size: 14px;
+        }
+
+        #input:focus {
+          border: 2px solid 4a9eff;   # blue.primary
+        }
+
+        #inner-box {
+          margin: 5px;
+          border: none;
+          background-color: transparent;
+        }
+
+        #outer-box {
+          margin: 5px;
+          border: none;
+          background-color: transparent;
+        }
+
+        #scroll {
+          margin: 0px;
+          border: none;
+        }
+
+        #text {
+          margin: 5px;
+          border: none;
+          color: e6edf3;               # text.primary
+        }
+
+        #text:selected {
+          color: e6edf3;               # text.primary
+        }
+
+        #entry {
+          padding: 8px 12px;
+          margin: 2px;
+          border-radius: 8px;
+          border: none;
+          background-color: transparent;
+        }
+
+        #entry:selected {
+          background-color: 264f78;    # ui.selected
+          color: e6edf3;               # text.primary
+        }
+
+        #entry:selected #text {
+          color: e6edf3;               # text.primary
+        }
+
+        #entry img {
+          margin-right: 8px;
+        }
+      '';
+    };
+
+    # Swaylock screen locker
+    programs.swaylock = {
+      enable = true;
+      package = pkgs.swaylock-effects;
+      
+      settings = {
+        color = "0d1421";   # bg.primary (without # for swaylock)
+        font = "Inter";
+        font-size = 24;
+        
+        indicator-radius = 100;
+        indicator-thickness = 7;
+        
+        line-color = "0d1421";        # bg.primary
+        line-clear-color = "66bb6a";  # cool.green
+        line-caps-lock-color = "d29922";  # ui.warning
+        line-ver-color = "4a9eff";    # blue.primary
+        line-wrong-color = "f85149";  # ui.error
+        
+        ring-color = "1a2332";        # bg.secondary
+        ring-clear-color = "66bb6a";  # cool.green
+        ring-caps-lock-color = "d29922";  # ui.warning
+        ring-ver-color = "4a9eff";    # blue.primary
+        ring-wrong-color = "f85149";  # ui.error
+        
+        key-hl-color = "6bb6ff";      # blue.light
+        separator-color = "00000000";
+        
+        inside-color = "0d1421";      # bg.primary
+        inside-clear-color = "0d1421";
+        inside-caps-lock-color = "0d1421";
+        inside-ver-color = "0d1421";
+        inside-wrong-color = "0d1421";
+        
+        text-color = "e6edf3";        # text.primary
+        text-clear-color = "e6edf3";
+        text-caps-lock-color = "e6edf3";
+        text-ver-color = "e6edf3";
+        text-wrong-color = "e6edf3";
+        
+        # Effects
+        screenshots = true;
+        clock = true;
+        effect-blur = "20x3";
+        effect-vignette = "0.5:0.5";
+        fade-in = 0.2;
+      };substring 1 6 colors.text.primary;
+        
+        # Effects
+        screenshots = true;
+        clock = true;
+        effect-blur = "20x3";
+        effect-vignette = "0.5:0.5";
+        fade-in = 0.2;
+      };
+    };
+
+    # Swayidle for automatic screen locking
+    services.swayidle = {
+      enable = true;
+      timeouts = [
+        {
+          timeout = 300;
+          command = "${pkgs.swaylock-effects}/bin/swaylock -f";
+        }
+        {
+          timeout = 600;
+          command = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off";
+          resumeCommand = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
+        }
+      ];
+    };
+
+    # Additional Wayland utilities
+    home.packages = with pkgs; [
+      # Screenshot and screen recording
+      grim
+      slurp
+      wf-recorder
+      
+      # Clipboard utilities
+      wl-clipboard
+      clipman
+      
+      # Wallpaper daemon
+      swww
+      
+      # Color picker
+      hyprpicker
+      
+      # System monitoring for waybar
+      acpi
+      playerctl
+      brightnessctl
+    ];
+
+    # Create wallpaper directory and add a default Novadust wallpaper script
+    home.file.".config/wallpapers/.keep".text = "";
+    
+    # Script to generate a Novadust-themed wallpaper if none exists
+    home.file.".local/bin/novadust-wallpaper" = {
+      text = ''
+        #!/bin/sh
+        WALLPAPER_DIR="$HOME/.config/wallpapers"
+        WALLPAPER_FILE="$WALLPAPER_DIR/novadust-bg.jpg"
+        
+        if [ ! -f "$WALLPAPER_FILE" ]; then
+          echo "Creating Novadust wallpaper..."
+          mkdir -p "$WALLPAPER_DIR"
+          
+          # Create a simple gradient wallpaper using ImageMagick
+          if command -v magick >/dev/null 2>&1; then
+            magick -size 1920x1080 gradient:"0d1421-1a2332" "$WALLPAPER_FILE"
+          elif command -v convert >/dev/null 2>&1; then
+            convert -size 1920x1080 gradient:"0d1421-1a2332" "$WALLPAPER_FILE"
+          else
+            echo "ImageMagick not found. Please install it or manually add a wallpaper to $WALLPAPER_FILE"
+            exit 1
+          fi
+        fi
+        
+        # Set the wallpaper
+        if command -v swww >/dev/null 2>&1; then
+          swww img "$WALLPAPER_FILE" --transition-fps 60 --transition-type wipe --transition-duration 2
+        fi
+      '';
+      executable = true;
     };
   };
 }
