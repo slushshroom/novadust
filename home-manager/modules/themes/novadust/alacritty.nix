@@ -1,4 +1,4 @@
-## alacritty.nix - Terminal theming module## alacritty.nix - Terminal theming module
+## alacritty.nix - Terminal theming module
 { config, pkgs, lib, ... }:
 
 let
@@ -154,4 +154,4 @@ in
     };
   };
 }
-}
+
