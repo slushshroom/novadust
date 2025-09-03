@@ -851,7 +851,6 @@ in
         effect-blur = "20x3";
         effect-vignette = "0.5:0.5";
         fade-in = 0.2;
-      };substring 1 6 colors.text.primary;
         
         # Effects
         screenshots = true;
@@ -935,3 +934,4 @@ in
     };
   };
 }
+
