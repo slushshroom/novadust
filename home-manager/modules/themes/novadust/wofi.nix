@@ -1,9 +1,5 @@
-## wofi.nix - Wayland application launcher theming
 { config, pkgs, lib, ... }:
 
-let
-  colors = config.novadust.colors;
-in
 {
   options.novadust.wofi.enable = lib.mkEnableOption "Novadust Wofi theme";
 
@@ -37,12 +33,13 @@ in
         matching = "contains";
       };
       
+      # Fixed with direct color values
       style = ''
         window {
           margin: 0px;
-          border: 2px solid ${colors.ui.border};
+          border: 2px solid #30363d;
           border-radius: 12px;
-          background-color: ${colors.bg.primary};
+          background-color: #0d1421;
           font-family: Inter;
           font-size: 14px;
           font-weight: 500;
@@ -53,14 +50,14 @@ in
           margin: 12px 12px 8px 12px;
           border-radius: 8px;
           border: none;
-          background-color: ${colors.bg.secondary};
-          color: ${colors.text.primary};
+          background-color: #1a2332;
+          color: #e6edf3;
           font-size: 14px;
           font-weight: 500;
         }
 
         #input:focus {
-          border: 2px solid ${colors.blue.primary};
+          border: 2px solid #4a9eff;
           outline: none;
         }
 
@@ -85,12 +82,12 @@ in
         #text {
           margin: 5px;
           border: none;
-          color: ${colors.text.primary};
+          color: #e6edf3;
           font-weight: 500;
         }
 
         #text:selected {
-          color: ${colors.text.primary};
+          color: #e6edf3;
         }
 
         #entry {
@@ -103,16 +100,16 @@ in
         }
 
         #entry:hover {
-          background-color: ${colors.ui.hover};
+          background-color: #21262d;
         }
 
         #entry:selected {
-          background-color: ${colors.ui.selected};
-          color: ${colors.text.primary};
+          background-color: #264f78;
+          color: #e6edf3;
         }
 
         #entry:selected #text {
-          color: ${colors.text.primary};
+          color: #e6edf3;
           font-weight: 600;
         }
 
@@ -121,20 +118,19 @@ in
           border-radius: 4px;
         }
 
-        /* Scrollbar styling */
         scrollbar {
           background-color: transparent;
           width: 8px;
         }
 
         scrollbar slider {
-          background-color: ${colors.ui.border};
+          background-color: #30363d;
           border-radius: 4px;
           min-height: 20px;
         }
 
         scrollbar slider:hover {
-          background-color: ${colors.text.muted};
+          background-color: #7d8590;
         }
       '';
     };
