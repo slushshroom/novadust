@@ -1,16 +1,12 @@
-## rofi.nix - Application launcher theming
 { config, pkgs, lib, ... }:
 
-let
-  colors = config.novadust.colors;
-in
 {
   options.novadust.rofi.enable = lib.mkEnableOption "Novadust Rofi theme";
 
   config = lib.mkIf config.novadust.rofi.enable {
     programs.rofi = {
       enable = true;
-      package = pkgs.rofi-wayland;
+      package = pkgs.rofi;
       
       font = "Inter Medium 12";
       
@@ -41,20 +37,20 @@ in
       };
     };
 
-    # Custom Rofi theme file
+    # Simplified Rofi theme with direct colors
     home.file.".config/rofi/novadust.rasi".text = ''
       * {
-        bg: ${colors.bg.primary};
-        bg-alt: ${colors.bg.secondary};
-        bg-selected: ${colors.ui.selected};
+        bg: #0d1421;
+        bg-alt: #1a2332;
+        bg-selected: #264f78;
         
-        fg: ${colors.text.primary};
-        fg-alt: ${colors.text.secondary};
+        fg: #e6edf3;
+        fg-alt: #b6c2cf;
         
-        border: ${colors.ui.border};
-        selected: ${colors.blue.primary};
-        active: ${colors.cool.green};
-        urgent: ${colors.ui.error};
+        border: #30363d;
+        selected: #4a9eff;
+        active: #66bb6a;
+        urgent: #f85149;
         
         background-color: transparent;
         text-color: @fg;
@@ -112,13 +108,6 @@ in
         position: center;
       }
 
-      case-indicator {
-        background-color: @bg;
-        text-color: @fg;
-        vertical-align: 0.5;
-        horizontal-align: 0.5;
-      }
-
       listview {
         background-color: @bg;
         columns: 1;
@@ -127,9 +116,6 @@ in
         cycle: true;
         dynamic: true;
         layout: vertical;
-        reverse: false;
-        fixed-height: true;
-        fixed-columns: true;
         border-radius: 8px;
       }
 
@@ -183,16 +169,6 @@ in
         background-color: @selected;
         text-color: @bg;
         border-radius: 8px;
-      }
-
-      element selected.urgent {
-        background-color: @urgent;
-        text-color: @bg;
-      }
-
-      element selected.active {
-        background-color: @active;
-        text-color: @bg;
       }
     '';
   };
