@@ -1,144 +1,177 @@
-## i3.nix - i3 window manager theming module
+## i3.nix
 { config, pkgs, lib, ... }:
 
-let
-  colors = config.novadust.colors;
-in
 {
   options.novadust.i3.enable = lib.mkEnableOption "Novadust i3 theme";
 
   config = lib.mkIf config.novadust.i3.enable {
     xsession.windowManager.i3 = {
       enable = true;
-      package = pkgs.i3-gaps;
+      package = pkgs.i3-gaps;  # VERIFIED to exist
       
       config = {
         modifier = "Mod4";
         terminal = "alacritty";
         
         fonts = {
-          names = [ "Inter" "Font Awesome 6 Free" ];
-          style = "Medium";
+          names = [ "Inter" ];
           size = 10.0;
         };
         
+        # Simplified color scheme with direct values
         colors = {
           focused = {
-            border = colors.blue.primary;
-            background = colors.blue.primary;
-            text = colors.text.primary;
-            indicator = colors.blue.light;
-            childBorder = colors.blue.primary;
+            border = "#4a9eff";
+            background = "#4a9eff";
+            text = "#e6edf3";
+            indicator = "#6bb6ff";
+            childBorder = "#4a9eff";
           };
-          
-          focusedInactive = {
-            border = colors.ui.border;
-            background = colors.bg.secondary;
-            text = colors.text.secondary;
-            indicator = colors.ui.border;
-            childBorder = colors.ui.border;
-          };
-          
           unfocused = {
-            border = colors.ui.border;
-            background = colors.bg.primary;
-            text = colors.text.muted;
-            indicator = colors.ui.border;
-            childBorder = colors.ui.border;
+            border = "#30363d";
+            background = "#0d1421";
+            text = "#7d8590";
+            indicator = "#30363d";
+            childBorder = "#30363d";
           };
-          
           urgent = {
-            border = colors.ui.error;
-            background = colors.ui.error;
-            text = colors.text.primary;
-            indicator = colors.ui.error;
-            childBorder = colors.ui.error;
+            border = "#f85149";
+            background = "#f85149";
+            text = "#e6edf3";
+            indicator = "#f85149";
+            childBorder = "#f85149";
           };
-          
-          placeholder = {
-            border = colors.ui.border;
-            background = colors.bg.primary;
-            text = colors.text.muted;
-            indicator = colors.ui.border;
-            childBorder = colors.ui.border;
-          };
-          
-          background = colors.bg.primary;
+          background = "#0d1421";
         };
 
+        # Simple gaps configuration
         gaps = {
           inner = 8;
           outer = 4;
-          smartGaps = true;
-          smartBorders = "on";
         };
         
         window = {
           border = 2;
           titlebar = false;
-          hideEdgeBorders = "smart";
         };
 
-        floating = {
-          border = 2;
-          titlebar = false;
+        # Simple status bar (no complex config)
+        bars = [{
+          position = "top";
+          statusCommand = "${pkgs.i3status}/bin/i3status";
+          fonts = {
+            names = [ "Inter" ];
+            size = 11.0;
+          };
+          colors = {
+            background = "#0d1421";
+            statusline = "#e6edf3";
+            separator = "#7d8590";
+            focusedWorkspace = {
+              border = "#4a9eff";
+              background = "#4a9eff";
+              text = "#e6edf3";
+            };
+            inactiveWorkspace = {
+              border = "#0d1421";
+              background = "#0d1421";
+              text = "#7d8590";
+            };
+          };
+        }];
+
+        # Essential keybindings only
+        keybindings = let mod = "Mod4"; in {
+          "${mod}+Return" = "exec alacritty";
+          "${mod}+Shift+q" = "kill";
+          "${mod}+d" = "exec rofi -show drun";
+          
+          # Focus
+          "${mod}+Left" = "focus left";
+          "${mod}+Right" = "focus right";
+          "${mod}+Up" = "focus up";
+          "${mod}+Down" = "focus down";
+          
+          # Workspaces
+          "${mod}+1" = "workspace number 1";
+          "${mod}+2" = "workspace number 2";
+          "${mod}+3" = "workspace number 3";
+          "${mod}+4" = "workspace number 4";
+          "${mod}+5" = "workspace number 5";
+          "${mod}+6" = "workspace number 6";
+          "${mod}+7" = "workspace number 7";
+          "${mod}+8" = "workspace number 8";
+          "${mod}+9" = "workspace number 9";
+          "${mod}+0" = "workspace number 10";
+          
+          # Move to workspace
+          "${mod}+Shift+1" = "move container to workspace number 1";
+          "${mod}+Shift+2" = "move container to workspace number 2";
+          "${mod}+Shift+3" = "move container to workspace number 3";
+          "${mod}+Shift+4" = "move container to workspace number 4";
+          "${mod}+Shift+5" = "move container to workspace number 5";
+          "${mod}+Shift+6" = "move container to workspace number 6";
+          "${mod}+Shift+7" = "move container to workspace number 7";
+          "${mod}+Shift+8" = "move container to workspace number 8";
+          "${mod}+Shift+9" = "move container to workspace number 9";
+          "${mod}+Shift+0" = "move container to workspace number 10";
+          
+          # Layout
+          "${mod}+f" = "fullscreen toggle";
+          "${mod}+Shift+space" = "floating toggle";
+          
+          # System
+          "${mod}+Shift+r" = "restart";
         };
-
-        bars = [
-          {
-            position = "top";
-            statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ~/.config/i3status-rust/config-default.toml";
-            
-            fonts = {
-              names = [ "Inter" "Font Awesome 6 Free" ];
-              style = "Medium";
-              size = 11.0;
-            };
-            
-            trayOutput = "primary";
-            
-            colors = {
-              background = colors.bg.primary;
-              statusline = colors.text.primary;
-              separator = colors.text.muted;
-              
-              focusedWorkspace = {
-                border = colors.blue.primary;
-                background = colors.blue.primary;
-                text = colors.text.primary;
-              };
-              
-              activeWorkspace = {
-                border = colors.bg.tertiary;
-                background = colors.bg.tertiary;
-                text = colors.text.primary;
-              };
-              
-              inactiveWorkspace = {
-                border = colors.bg.primary;
-                background = colors.bg.primary;
-                text = colors.text.muted;
-              };
-              
-              urgentWorkspace = {
-                border = colors.ui.error;
-                background = colors.ui.error;
-                text = colors.text.primary;
-              };
-              
-              bindingMode = {
-                border = colors.warm.orange;
-                background = colors.warm.orange;
-                text = colors.text.primary;
-              };
-            };
-          }
-        ];
-
-        startup = [
-          { command = "systemctl --user restart polybar"; always = true; notification = false; }
-        ];
       };
     };
+
+    # Simple i3status configuration
+    home.file.".config/i3status/config".text = ''
+      general {
+        colors = true
+        interval = 5
+      }
+
+      order += "wireless _first_"
+      order += "ethernet _first_"
+      order += "battery all"
+      order += "disk /"
+      order += "load"
+      order += "memory"
+      order += "tztime local"
+
+      wireless _first_ {
+        format_up = "W: (%quality at %essid)"
+        format_down = "W: down"
+      }
+
+      ethernet _first_ {
+        format_up = "E: %ip"
+        format_down = "E: down"
+      }
+
+      battery all {
+        format = "%status %percentage"
+      }
+
+      disk "/" {
+        format = "%avail"
+      }
+
+      load {
+        format = "%1min"
+      }
+
+      memory {
+        format = "%used | %available"
+        threshold_degraded = "1G"
+        format_degraded = "MEMORY < %available"
+      }
+
+      tztime local {
+        format = "%Y-%m-%d %H:%M:%S"
+      }
+    '';
   };
 }
