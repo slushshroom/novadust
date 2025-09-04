@@ -1,4 +1,4 @@
-## default.nix - Main module file that imports all submodules
+## default.nix
 { config, pkgs, lib, ... }:
 
 {
@@ -12,7 +12,6 @@
     ./wofi.nix
   ];
 
-  # You can add any shared configuration here
   options.novadust.enable = lib.mkEnableOption "Novadust theme suite";
 
   config = lib.mkIf config.novadust.enable {
@@ -20,21 +19,16 @@
     novadust = {
       gtk.enable = lib.mkDefault true;
       alacritty.enable = lib.mkDefault true;
-      rofi.enable = lib.mkDefault (!config.novadust.hyprland.enable);  # Use rofi for X11
-      wofi.enable = lib.mkDefault config.novadust.hyprland.enable;     # Use wofi for Wayland
-      # Window managers are left false by default - enable the one you use
-      # i3.enable = lib.mkDefault false;
-      # hyprland.enable = lib.mkDefault false;
+      rofi.enable = lib.mkDefault (!config.novadust.hyprland.enable);
+      wofi.enable = lib.mkDefault config.novadust.hyprland.enable;
     };
     
-    # Install common packages needed for theming
     home.packages = with pkgs; [
       # Theme tools
       lxappearance
-      qt5ct
-      qt6ct
+      qt5ct                   
       
-      # Fonts
+      # Fonts 
       jetbrains-mono
       fira-code
       inter
@@ -47,13 +41,46 @@
       papirus-icon-theme
       numix-cursor-theme
       
-      # Utilities
+      # Basic utilities
       neofetch
       htop
       tree
-      
-      # Image manipulation (for wallpaper generation)
       imagemagick
+      
+      # Essential clipboard and tools
+      wl-clipboard         
+      xclip               
+      playerctl             
+      libnotify            
+      brightnessctl        
+      pavucontrol           
+      nautilus              
+      
+    ] ++ lib.optionals config.novadust.hyprland.enable [
+      grim                 
+      slurp               
+      wf-recorder           
+      swww                 
+      hyprpicker          
+      swaylock-effects     
+      swayidle            
+      wlr-randr            
+   
+      
+    ] ++ lib.optionals config.novadust.i3.enable [
+      # X11 packages
+      flameshot             
+      scrot                 
+      feh                  
+      nitrogen              
+      picom                 
+      arandr               
+      xrandr               
+      i3lock-color         
+      dunst                 
     ];
+
+    # Font configuration
+    fonts.fontconfig.enable = true;
   };
 }
