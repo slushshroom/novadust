@@ -1,9 +1,5 @@
-## alacritty.nix - Terminal theming module
 { config, pkgs, lib, ... }:
 
-let
-  colors = config.novadust.colors;
-in
 {
   options.novadust.alacritty.enable = lib.mkEnableOption "Novadust Alacritty theme";
 
@@ -49,33 +45,34 @@ in
           size = 13.0;
         };
 
+        # Fixed with direct color values
         colors = {
           primary = {
-            background = colors.bg.primary;
-            foreground = colors.text.primary;
-            dim_foreground = colors.text.muted;
-            bright_foreground = colors.text.primary;
+            background = "#0d1421";
+            foreground = "#e6edf3";
+            dim_foreground = "#7d8590";
+            bright_foreground = "#e6edf3";
           };
           
           cursor = {
-            text = colors.bg.primary;
-            cursor = colors.blue.primary;
+            text = "#0d1421";
+            cursor = "#4a9eff";
           };
           
           vi_mode_cursor = {
-            text = colors.bg.primary;
-            cursor = colors.warm.orange;
+            text = "#0d1421";
+            cursor = "#ffa726";
           };
           
           search = {
             matches = {
-              foreground = colors.bg.primary;
-              background = colors.warm.yellow;
+              foreground = "#0d1421";
+              background = "#ffeb3b";
             };
-          focused_match = {
-            foreground = "0d1421";  # bg.primary
-            background = "ffa726";  # warm.orange
-          };
+            focused_match = {
+              foreground = "#0d1421";
+              background = "#ffa726";
+            };
           };
           
           line_indicator = {
@@ -85,47 +82,47 @@ in
           
           selection = {
             text = "CellForeground";
-            background = "264f78";  # ui.selected
+            background = "#264f78";
           };
           
           normal = {
-            black = "0d1421";   # bg.primary
-            red = "f85149";     # ui.error
-            green = "66bb6a";   # cool.green
-            yellow = "ffa726";  # warm.orange
-            blue = "4a9eff";    # blue.primary
-            magenta = "ab47bc"; # cool.purple
-            cyan = "4dd0e1";    # cool.cyan
-            white = "e6edf3";   # text.primary
+            black = "#0d1421";
+            red = "#f85149";
+            green = "#66bb6a";
+            yellow = "#ffa726";
+            blue = "#4a9eff";
+            magenta = "#ab47bc";
+            cyan = "#4dd0e1";
+            white = "#e6edf3";
           };
           
           bright = {
-            black = "7d8590";   # text.muted
-            red = "ff8a80";
-            green = "a5d6a7";
-            yellow = "ffcc80";
-            blue = "6bb6ff";    # blue.light
-            magenta = "ce93d8";
-            cyan = "80deea";
-            white = "e6edf3";   # text.primary
+            black = "#7d8590";
+            red = "#ff8a80";
+            green = "#a5d6a7";
+            yellow = "#ffcc80";
+            blue = "#6bb6ff";
+            magenta = "#ce93d8";
+            cyan = "#80deea";
+            white = "#e6edf3";
           };
           
           dim = {
-            black = "1a2332";   # bg.secondary
-            red = "c62828";
-            green = "2e7d32";
-            yellow = "f57c00";
-            blue = "2968a3";    # blue.dark
-            magenta = "7b1fa2";
-            cyan = "00838f";
-            white = "b6c2cf";   # text.secondary
+            black = "#1a2332";
+            red = "#c62828";
+            green = "#2e7d32";
+            yellow = "#f57c00";
+            blue = "#2968a3";
+            magenta = "#7b1fa2";
+            cyan = "#00838f";
+            white = "#b6c2cf";
           };
         };
         
         bell = {
           animation = "EaseOutExpo";
           duration = 0;
-          color = "d29922";  # ui.warning
+          color = "#d29922";
         };
         
         mouse = {
@@ -154,4 +151,3 @@ in
     };
   };
 }
-
