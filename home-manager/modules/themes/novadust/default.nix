@@ -1,4 +1,3 @@
-## default.nix
 { config, pkgs, lib, ... }:
 
 {
@@ -15,11 +14,13 @@
   options.novadust.enable = lib.mkEnableOption "Novadust theme suite";
 
   config = lib.mkIf config.novadust.enable {
-    # Enable all components by default when novadust is enabled
+    # Enable components based on window manager
     novadust = {
       gtk.enable = lib.mkDefault true;
       alacritty.enable = lib.mkDefault true;
+      # Only enable rofi if hyprland is not enabled
       rofi.enable = lib.mkDefault (!config.novadust.hyprland.enable);
+      # Only enable wofi if hyprland is enabled
       wofi.enable = lib.mkDefault config.novadust.hyprland.enable;
     };
     
@@ -28,7 +29,7 @@
       lxappearance
       qt5ct                   
       
-      # Fonts 
+      # Fonts (verified packages)
       jetbrains-mono
       fira-code
       inter
@@ -47,37 +48,39 @@
       tree
       imagemagick
       
-      # Essential clipboard and tools
-      wl-clipboard         
-      xclip               
-      playerctl             
-      libnotify            
-      brightnessctl        
-      pavucontrol           
-      nautilus              
+      # Clipboard and media tools
+      wl-clipboard         # Wayland clipboard
+      xclip               # X11 clipboard
+      playerctl           # Media control
+      libnotify           # Notifications
+      brightnessctl       # Brightness control
+      pavucontrol         # Audio control
+      
+      # File manager
+      gnome.nautilus      # Fixed package path
       
     ] ++ lib.optionals config.novadust.hyprland.enable [
-      grim                 
-      slurp               
-      wf-recorder           
-      swww                 
-      hyprpicker          
-      swaylock-effects     
-      swayidle            
-      wlr-randr            
-   
+      # Wayland-specific packages
+      grim                # Screenshots
+      slurp               # Screen region selection
+      wf-recorder         # Screen recording
+      swww                # Wallpaper daemon
+      hyprpicker          # Color picker
+      swaylock-effects    # Screen locker
+      swayidle            # Idle daemon
+      wlr-randr           # Display management
       
     ] ++ lib.optionals config.novadust.i3.enable [
-      # X11 packages
-      flameshot             
-      scrot                 
-      feh                  
-      nitrogen              
-      picom                 
-      arandr               
-      xrandr               
-      i3lock-color         
-      dunst                 
+      # X11-specific packages
+      flameshot           # Screenshots
+      scrot               # Screenshots
+      feh                 # Image viewer/wallpaper
+      nitrogen            # Wallpaper manager
+      picom               # Compositor
+      arandr              # Display GUI
+      xorg.xrandr         # Display management
+      i3lock-color        # Screen locker
+      dunst               # Notifications
     ];
 
     # Font configuration
